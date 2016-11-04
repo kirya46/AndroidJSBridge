@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+
+    <!-- Call Android fro call Navigatio Drawer -->
+    <input type="button" value="Login" onClick="Android.onOpenContextMenu()" />
+
+
+    <script type="text/javascript">
+
+      //send callback to Android about
+      //web-page did loadede
+      window.onload = function(){
+        Android.onLoad();
+      }
+
+      //Call from Android for login
+      function login(uuid){
+        var title = 'Application title from JS';
+
+        var navItem = new NavItem("Web item", '0',"item action", "352346546");
+
+        var navItemList = [];
+        navItemList.push(navItem);
+
+        var menu = {items : navItemList};
+
+        var mqRoutes = ['ds.notify'];
+        Android.onLoginSuccessful(title, JSON.stringify(menu),JSON.stringify(mqRoutes));
+      }
+
+      //Call from Android onMqEvent
+      function onMqEvent(route,data){
+        console.log('\n');
+        console.log("======MQ event======");
+        console.log("route: " + route);
+        console.log("data: " + data);
+        console.log("====================");
+      }
+
+      function NavItem(name,type,action,imgResID) {
+        this.name = name;
+        this.type = type;
+        this.action = action;
+        this.imgResID = imgResID;
+      }
+
+    </script>
+
+
+  </body>
+</html>
